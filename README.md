@@ -17,22 +17,26 @@ If at least one valid triplet exists, the algorithm returns `1`. Otherwise, it r
 ---
 ## Example 1:
 
-**Input:**
-`[10 , 50 , 1]`
-**Output:**
-`0`
-**Explanation:**
+**Input:**  
+`[10, 50, 1]`  
+
+**Output:**  
+`0`  
+
+**Explanation:**  
 No valid triangle found in this input.
+
 ---
+
 ## Example 2:
 
-**Input:**
-`[10, 2, 5, 1, 8, 20]`
+**Input:**  
+`[10, 2, 5, 1, 8, 20]`  
 
-**Output:**
-`1`
+**Output:**  
+`1`  
 
-**Explanation:**
+**Explanation:**  
 The values `10, 5, 8` form a valid triangle.
 
 ---
