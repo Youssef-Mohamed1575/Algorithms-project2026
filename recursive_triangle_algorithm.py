@@ -10,10 +10,11 @@ class recursive_triangle_finder:
             if not swapped:
                 break
         return arr    
+    
     def setup(self, nums: list[int]) -> int:
         nums = self.bubble_sort(nums)
         return self.triangle_finder(nums, len(nums) - 1)
-
+    
     def triangle_finder(self, nums: list[int], k: int) -> int:
         if k < 2:
             return 0
@@ -28,7 +29,8 @@ class recursive_triangle_finder:
             return False
 
         if nums[i] + nums[j] > nums[k] :
-            print("Triangle sides found = ",nums[i],nums[j],nums[k])
+            # Extra : If we need to print the sides of the triangle found,uncomment the line below 
+            # print("Triangle sides found = ",nums[i],nums[j],nums[k])
             return True
             
         return self.check_triangle(nums, i + 1, j, k)
