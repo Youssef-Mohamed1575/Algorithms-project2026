@@ -129,7 +129,7 @@ Final Space Complexity: O(N)
 
 ---
 
-# Algorithm 2: Iterative Two-Pointer Approach
+# Algorithm 2: Non-Recursive Two-Pointer Approach
 
 ## Idea
 
@@ -149,7 +149,7 @@ This avoids recursion and is generally safer.
 FUNCTION bubble_sort(nums):
 Sort array
 
-FUNCTION iterative_triangle(nums):
+FUNCTION non_recursive_triangle(nums):
 bubble_sort(nums)
 
 ```
@@ -229,13 +229,13 @@ This reduces unnecessary conditions and improves efficiency.
 
 # Comparison
 
-| Feature          | Recursive | Iterative |
-| ---------------- | --------- | --------- |
-| Time Complexity  | O(N²)     | O(N²)     |
-| Space Complexity | O(N)      | O(1)      |
-| Memory Use       | Higher    | Lower     |
-| Performance      | Slower    | Faster    |
-| Simplicity       | Moderate  | Better    |
+| Feature          | Recursive | Non-Recursive |
+| ---------------- | --------- | ------------- |
+| Time Complexity  | O(N²)     | O(N²)         |
+| Space Complexity | O(N)      | O(1)          |
+| Memory Use       | Higher    | Lower         |
+| Performance      | Slower    | Faster        |
+| Simplicity       | Moderate  | Better        |
 
 ---
 
@@ -246,14 +246,14 @@ Both algorithms solve the triangle triplet problem successfully.
 **Recursive Approach:**
 Useful for demonstrating recursion concepts.
 
-**Iterative Approach:**
+**Non-Recursive Approach:**
 More efficient and practical.
 
 ---
 
 ## Recommended Solution
 
-**Iterative Two-Pointer Approach**
+**Non-Recursive Two-Pointer Approach**
 
 Because it:
 
