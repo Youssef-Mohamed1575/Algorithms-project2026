@@ -29,7 +29,7 @@ class recursive_triangle_finder:
             return False
 
         if nums[i] + nums[j] > nums[k] :
-            # Extra : If we need to print the sides of the triangle found,uncomment the line below 
+            # if we need to print the sides of the triangle found,uncomment the line below 
             # print("Triangle sides found = ",nums[i],nums[j],nums[k])
             return True
             
@@ -47,5 +47,5 @@ try:
 
 except ValueError:
     
-    print("Error: You cannot enter alphabetical characters.")
+    print("Error: You can enter only enter integers.")
 
