@@ -1,139 +1,274 @@
-# Algorithms-project2026
-Algoritms project assigned to CS students of Fcaih 2025/2026 - year 2
+# Algorithms Project 2026
 
-# Triangle Triplet Detection
+Triangle Triplet Detection Problem
 
-## Problem Overview
-Given a zero-indexed array A consisting of N integers, determine if there exists a triangular triplet.
-A triplet $(P, Q, R)$ is considered triangular if $0 \leq P < Q < R < N$ and the following conditions are met:
-$A[P] + A[Q] > A[R]$
-$A[Q] + A[R] > A[P]$
-$A[R] + A[P] > A[Q]$
-Goal: Return 1 if a triangular triplet exists in the array, otherwise return 0.
+## Introduction
 
-## Examples
-**Example 1:**
-Input: nums = [10, 50, 1]  
-Output: 0 (No combination of sides can form a triangle).
+The purpose of this project is to determine whether a given array of integers contains any three numbers that can form a valid triangle.
 
-**Example 2:**
-Input: nums = [10, 2, 5, 1, 8, 20]  
-Output: 1 (Triplet (0, 2, 4) corresponds to values 10, 5, 8 which can form a triangle).
+For three sides to form a triangle:
+
+* Side1 + Side2 > Side3
+* Side2 + Side3 > Side1
+* Side3 + Side1 > Side2
+
+If at least one valid triplet exists, the algorithm returns `1`. Otherwise, it returns `0`.
+
+---
+## Example 1:
+
+**Input:**  
+`[10, 50, 1]`  
+
+**Output:**  
+`0`  
+
+**Explanation:**  
+No valid triangle found in this input.
+
+---
+
+## Example 2:
+
+**Input:**  
+`[10, 2, 5, 1, 8, 20]`  
+
+**Output:**  
+`1`  
+
+**Explanation:**  
+The values `10, 5, 8` form a valid triangle.
 
 ---
 
 # Algorithm 1: Recursive Approach
-This approach sorts the array first. Sorting ensures that for any three elements $A[i] \leq A[j] \leq A[k]$, the conditions $A[j] + A[k] > A[i]$ and $A[i] + A[k] > A[j]$ are always true. Thus, we only need to verify if $A[i] + A[j] > A[k]$. The algorithm uses recursion to traverse the array backward and checks pairs.
+
+## Idea
+
+First, the array is sorted using Bubble Sort.
+
+After sorting:
+`a ≤ b ≤ c`
+
+This means we only need to check:
+
+`a + b > c`
+
+instead of checking all three triangle conditions.
+
+The recursive solution starts from the largest element and recursively checks possible pairs.
+
+---
 
 ## Pseudo-code
-FUNCTION RecursiveTriangleFinder(nums):
-SORT nums in ascending order
-RETURN Triangle_finder(nums, length(nums) - 1)
 
-FUNCTION Triangle_finder(nums, k):
+FUNCTION bubble_sort(nums):
+Sort the array in ascending order
+
+FUNCTION recursive_triangle(nums):
+bubble_sort(nums)
+RETURN triangle_finder(nums, last index)
+
+FUNCTION triangle_finder(nums, k):
 IF k < 2:
 RETURN 0
 
-IF check_triangle(nums, 0, k - 1, k) is TRUE:
-RETURN 1
+```
+IF check_triangle(nums, 0, k-1, k):
+    RETURN 1
 
-RETURN Triangle_finder(nums, k - 1)
+RETURN triangle_finder(nums, k-1)
+```
 
 FUNCTION check_triangle(nums, i, j, k):
 IF i >= j:
 RETURN FALSE
 
+```
 IF nums[i] + nums[j] > nums[k]:
-PRINT "Triangle sides = ", nums[i], nums[j], nums[k]
-RETURN TRUE
+    RETURN TRUE
 
-RETURN check_triangle(nums, i + 1, j, k)
-
-
-## Complexity Analysis
-**Time Complexity:** $O(N^2)$  
-- Sorting the array takes $O(N \log N)$ time.  
-- The outer recursive function (Triangle_finder) executes $O(N)$ times.  
-- For each execution, the inner recursive function (check_triangle) executes up to $O(N)$ times.  
-- The dominant operation is $O(N) \times O(N) = O(N^2)$.
-
-**Space Complexity:** $O(N)$  
-- The space complexity is governed by the maximum depth of the recursion tree. Both Triangle_finder and check_triangle can go up to $N$ levels deep, requiring $O(N)$ space on the call stack.
+RETURN check_triangle(nums, i+1, j, k)
+```
 
 ---
 
-# Algorithm 2: Iterative Two-Pointer Approach
-This algorithm improves upon the recursive solution by using iterative loops and two pointers. After sorting the array, it sets k as the largest element's index and uses two pointers (i at the start, and j just before k) to search for a valid pair.
+## Analysis
 
-## Pseudo-code
-FUNCTION triangleNumber(nums):
-SORT nums in ascending order
+Time Complexity Explanation:
+•	Bubble Sort requires O(N²) time because it uses nested loops to repeatedly compare and swap adjacent elements.
+•	The outer recursive function triangle_finder() may run up to N times, once for each possible largest side.
+•	For each recursive call, check_triangle() may scan through up to N smaller elements.
+•	This creates approximately O(N × N) = O(N²) operations.
+•	Since Bubble Sort is also O(N²), the total complexity remains O(N²).
+Final Time Complexity: O(N²)
 
-FOR k FROM length(nums) - 1 DOWN TO 2:
-i = 0
-j = k - 1
+Space Complexity Explanation:
+•	Bubble Sort works in-place and uses O(1) extra memory.
+•	However, recursive calls are stored on the call stack.
+•	In the worst case, recursion depth may reach O(N).
+•	Therefore, total auxiliary space is O(N).
+Final Space Complexity: O(N)
 
-WHILE i < j:
-IF nums[i] + nums[j] > nums[k]:
-RETURN 1
-ELSE:
-i = i + 1
-
-RETURN 0
-
-
-## Complexity Analysis
-**Time Complexity:** $O(N^2)$  
-- Sorting the array takes $O(N \log N)$ time.  
-- The outer FOR loop runs $O(N)$ times.  
-- The inner WHILE loop traverses the array using pointer i up to j, taking up to $O(N)$ time in the worst case.  
-- Total time complexity is $O(N^2)$.
-
-**Space Complexity:** $O(1)$ auxiliary space  
-- This algorithm evaluates the array in-place using loops and pointers, requiring no extra memory outside of the space required by the sorting algorithm.
 
 ---
 
-# Algorithm 3: Optimal Greedy Approach (Adjacent Elements)
-Since we only need to return 1 if any single triangle exists (rather than counting all possible triangles), we can optimize further. After sorting the array, if a triangle exists anywhere, it must exist between three adjacent elements.
+## Advantages
 
-**Mathematical Proof:** If $A[i] + A[i+1] \leq A[i+2]$, then $A[i] + A[i+1]$ will also be less than or equal to any element further down the sorted array (e.g., $A[i+3], A[i+4]$). Therefore, checking non-adjacent elements is unnecessary for a simple true/false existence check. We only need to check if $A[i] + A[i+1] > A[i+2]$.
+* Demonstrates recursion clearly
+* Good for understanding recursive searching
+* Fully manual implementation
+
+---
+
+## Disadvantages
+
+* Uses more memory
+* Slower for larger inputs
+* Stack overflow possible
+
+---
+
+# Algorithm 2: Non-Recursive Two-Pointer Approach
+
+## Idea
+
+This solution also sorts the array first.
+
+Then:
+
+* Choose the largest side
+* Use two pointers to test smaller values
+
+This avoids recursion and is generally safer.
+
+---
 
 ## Pseudo-code
-FUNCTION hasTriangle(nums):
-IF length(nums) < 3:
+
+FUNCTION bubble_sort(nums):
+Sort array
+
+FUNCTION non_recursive_triangle(nums):
+bubble_sort(nums)
+
+```
+FOR k from last index down to 2:
+    i = 0
+    j = k - 1
+
+    WHILE i < j:
+        IF nums[i] + nums[j] > nums[k]:
+            RETURN 1
+        ELSE:
+            i = i + 1
+
 RETURN 0
+```
 
-SORT nums in ascending order
+---
 
-FOR i FROM 0 TO length(nums) - 3:
-IF nums[i] + nums[i+1] > nums[i+2]:
-RETURN 1
+## Analysis
 
-RETURN 0
+Time Complexity Explanation:
+•	Bubble Sort still requires O(N²) time.
+•	The outer loop iterates through possible largest sides, up to N times.
+•	The inner while loop moves pointers through the array, requiring up to N operations per iteration.
+•	Combined traversal gives O(N²) complexity.
+•	Since sorting is O(N²), total complexity remains O(N²).
+Final Time Complexity: O(N²)
+
+Space Complexity Explanation:
+•	Bubble Sort is performed in-place.
+•	The algorithm only uses pointer variables (i, j, k).
+•	No recursion or additional large data structures are required.
+•	Thus, auxiliary memory usage is constant.
+Final Space Complexity: O(1)
 
 
-## Complexity Analysis
-**Time Complexity:** $O(N \log N)$  
-- Sorting the array takes $O(N \log N)$ time.  
-- The single FOR loop iterates through the array exactly once, taking $O(N)$ time.  
-- The dominant operation is the sort, making the total time complexity $O(N \log N)$.
+---
 
-**Space Complexity:** $O(1)$ auxiliary space  
-- This algorithm evaluates the array in-place, requiring no extra memory outside of the space required by the sorting algorithm.
+## Advantages
+
+* Better memory efficiency
+* No recursion
+* More practical
+* Easier to scale
+
+---
+
+## Disadvantages
+
+* Still quadratic time complexity
+
+---
+
+# Why Sorting Helps
+
+Sorting makes the problem easier because:
+
+For:
+`a ≤ b ≤ c`
+
+Only:
+`a + b > c`
+
+needs to be checked.
+
+This reduces unnecessary conditions and improves efficiency.
+
+---
+
+## Key Benefit
+
+* Reduces triangle validation from 3 checks to 1
+* Simplifies implementation
+* Improves algorithm efficiency
 
 ---
 
 # Comparison
 
-| Feature | Algorithm 1 (Recursive) | Algorithm 2 (Iterative Two-Pointer) | Alg 3: Optimal Greedy |
-|---|---:|---:|---:|
-| Paradigm | Recursion | Iteration (Two-Pointer) | Greedy / Linear Scan |
-| Time Complexity | O(N^2) | O(N^2) | O(N \log N) |
-| Space Complexity | O(N) (Call Stack) | O(1) (In-place) | O(1) (In-place) |
-| Performance Risk | High: Stack Overflow and O(N^2) slow-down on large inputs. | Medium: O(N^2) can be slow for N > 10,000. | Very Low: Only risks integer overflow in non-Python languages. |
-| Conclusion | Good for demonstrating functional programming concepts, but inefficient for memory. | Recommended Solution. It is memory-safe and avoids the heavy overhead of recursive function calls. | Best Solution. Most efficient for checking the existence of a triangle. |
+| Feature          | Recursive | Non-Recursive |
+| ---------------- | --------- | ------------- |
+| Time Complexity  | O(N²)     | O(N²)         |
+| Space Complexity | O(N)      | O(1)          |
+| Memory Use       | Higher    | Lower         |
+| Performance      | Slower    | Faster        |
+| Simplicity       | Moderate  | Better        |
 
+---
 
+# Final Conclusion
 
+Both algorithms solve the triangle triplet problem successfully.
 
+**Recursive Approach:**
+Useful for demonstrating recursion concepts.
+
+**Non-Recursive Approach:**
+More efficient and practical.
+
+---
+
+## Recommended Solution
+
+**Non-Recursive Two-Pointer Approach**
+
+Because it:
+
+* Uses less memory
+* Avoids recursion issues
+* Is easier to apply for larger datasets
+
+---
+
+## Project Requirements Covered
+
+* Recursive algorithm
+* Non-recursive algorithm
+* Manual implementation
+* Pseudo-code
+* **Analysis**
+* Complexity calculation
+* Comparison between algorithms
